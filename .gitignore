@@ -1,0 +1,21 @@
+# Compiled code
+/target/
+*.class
+
+# Eclipse settings
+.settings
+.project
+.classpath
+
+#Intellij settings
+.idea
+CommunicationDB.iml
+
+# Temporary files
+*~
+
+# Hidden files
+.*
+
+
+
