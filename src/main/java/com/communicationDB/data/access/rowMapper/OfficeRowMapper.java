@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.communicationDB.data.model.Office;
 
-public class OfficeRowMapper implements RowMapper<Office>
+public final class OfficeRowMapper implements RowMapper<Office>
 {
     public Office mapRow(ResultSet rs, int rowNum) throws SQLException
     {

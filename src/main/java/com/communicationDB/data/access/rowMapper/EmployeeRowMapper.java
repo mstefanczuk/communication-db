@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.communicationDB.data.model.Employee;
 
-public class EmployeeRowMapper implements RowMapper<Employee>
+public final class EmployeeRowMapper implements RowMapper<Employee>
 {
     public Employee mapRow(ResultSet rs, int rowNum) throws SQLException
     {

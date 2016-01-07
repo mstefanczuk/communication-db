@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.communicationDB.data.model.Address;
 
-public class AddressRowMapper implements RowMapper<Address>
+public final class AddressRowMapper implements RowMapper<Address>
 {
     public Address mapRow(ResultSet rs, int rowNum) throws SQLException
     {

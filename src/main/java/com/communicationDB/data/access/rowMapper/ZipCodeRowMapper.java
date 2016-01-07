@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.communicationDB.data.model.ZipCode;
 
-public class ZipCodeRowMapper implements RowMapper<ZipCode>
+public final class ZipCodeRowMapper implements RowMapper<ZipCode>
 {
     public ZipCode mapRow(ResultSet rs, int rowNum) throws SQLException
     {
