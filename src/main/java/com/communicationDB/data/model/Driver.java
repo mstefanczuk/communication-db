@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Driver extends Employee
 {
-    boolean isDCategory;
-    String drivingLicenseNr;
-    Date startLicenseDate;
-    Date endLicenseDate;
+    protected boolean isDCategory;
+    protected String drivingLicenseNr;
+    protected Date startLicenseDate;
+    protected Date endLicenseDate;
 
     public Driver()
     {

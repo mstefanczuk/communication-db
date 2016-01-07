@@ -2,8 +2,8 @@ package com.communicationDB.data.model;
 
 public class ZipCode
 {
-    private String zipCode;
-    private String city;
+    protected String zipCode;
+    protected String city;
     
     public ZipCode()
     {

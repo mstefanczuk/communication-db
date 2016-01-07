@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class Employee
 {
-    int employeeId;
-    String firstName;
-    String surname;
-    Date birthDate;
-    String pesel;
-    Date hiringDay;
-    Address address;
+    protected int employeeId;
+    protected String firstName;
+    protected String surname;
+    protected Date birthDate;
+    protected String pesel;
+    protected Date hiringDay;
+    protected Address address;
 
     public Employee()
     {

@@ -6,11 +6,11 @@ import java.util.List;
 
 public class Office
 {
-    private String name;
-    private String NIP;
-    private Date creationDate;
-    private Address address;
-    private List<Employee> employees;
+    protected String name;
+    protected String NIP;
+    protected Date creationDate;
+    protected Address address;
+    protected List<Employee> employees;
 
     public Office()
     {

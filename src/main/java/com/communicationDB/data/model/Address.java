@@ -2,11 +2,11 @@ package com.communicationDB.data.model;
 
 public class Address
 {
-    private String street;
-    private String houseNumber;
-    private String apartmentNumber;
-    private String city;
-    private ZipCode zipCode;
+    protected String street;
+    protected String houseNumber;
+    protected String apartmentNumber;
+    protected String city;
+    protected ZipCode zipCode;
     
     public Address()
     {
