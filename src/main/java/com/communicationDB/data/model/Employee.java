@@ -10,7 +10,6 @@ public class Employee
     Date birthDate;
     String pesel;
     Date hiringDay;
-    Office office;
     Address address;
 
     public Employee()
@@ -25,7 +24,6 @@ public class Employee
         this.birthDate = employee.getBirthDate();
         this.pesel = employee.getPesel();
         this.hiringDay = employee.getHiringDay();
-        this.office = employee.getOffice();
         this.address = employee.getAddress();
     }
 
@@ -87,16 +85,6 @@ public class Employee
     public void setHiringDay(Date hiringDay)
     {
         this.hiringDay = hiringDay;
-    }
-
-    public Office getOffice()
-    {
-        return office;
-    }
-
-    public void setOffice(Office office)
-    {
-        this.office = office;
     }
 
     public Address getAddress()

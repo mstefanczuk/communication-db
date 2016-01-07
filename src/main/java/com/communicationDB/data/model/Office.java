@@ -1,6 +1,8 @@
 package com.communicationDB.data.model;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Office
 {
@@ -8,9 +10,11 @@ public class Office
     private String NIP;
     private Date creationDate;
     private Address address;
+    private List<Employee> employees;
 
     public Office()
     {
+        this.employees = new LinkedList<Employee>();
     }
 
     public String getName()
@@ -51,5 +55,15 @@ public class Office
     public void setAddress(Address address)
     {
         this.address = address;
+    }
+
+    public List<Employee> getEmployees()
+    {
+        return this.employees;
+    }
+
+    public void setEmployees(List<Employee> employees)
+    {
+        this.employees = employees;
     }
 }

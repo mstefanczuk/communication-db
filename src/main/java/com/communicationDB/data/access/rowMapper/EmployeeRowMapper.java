@@ -18,7 +18,6 @@ public class EmployeeRowMapper implements RowMapper<Employee>
         employee.setBirthDate(rs.getDate("Data_urodzenia"));
         employee.setPesel(rs.getString("Pesel"));
         employee.setHiringDay(rs.getDate("Data_zatrudnienia"));
-        employee.setOffice(new OfficeRowMapper().mapRow(rs, rowNum));
         employee.setAddress(new AddressRowMapper().mapRow(rs, rowNum));
         return employee;
     }
