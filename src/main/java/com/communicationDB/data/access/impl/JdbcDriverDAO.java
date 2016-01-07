@@ -1,4 +1,4 @@
-package com.paszkiewiczteam.driver.dao.impl;
+package com.communicationDB.data.access.impl;
 
 import com.paszkiewiczteam.driver.dao.DriverDAO;
 import com.paszkiewiczteam.driver.model.Driver;

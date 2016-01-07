@@ -1,4 +1,4 @@
-package com.paszkiewiczteam.employee.dao.impl;
+package com.communicationDB.data.access.impl;
 
 import com.paszkiewiczteam.employee.dao.EmployeeDAO;
 import com.paszkiewiczteam.employee.model.Employee;
