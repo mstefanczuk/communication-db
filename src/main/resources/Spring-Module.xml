@@ -4,4 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <import resource="classpath:/database-configuration.xml" />
+    
+    <bean id="DriverDAO" class="com.communicationDB.data.access.impl.JdbcDriverDAO">
+        <property name="JdbcTemplate" ref="JdbcTemplate" />
+    </bean>
+    <bean id="EmployeeDAO" class="com.communicationDB.data.access.impl.JdbcEmployeeDAO">
+        <property name="JdbcTemplate" ref="JdbcTemplate" />
+    </bean>
 </beans>

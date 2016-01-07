@@ -2,6 +2,7 @@ package com.communicationDB.data.model;
 
 public class ZipCode
 {
+    protected int zipCodeId;
     protected String zipCode;
     protected String city;
     
@@ -9,6 +10,16 @@ public class ZipCode
     {
     }
 
+    public int getZipCodeId()
+    {
+        return zipCodeId;
+    }
+
+    public void setZipCodeId(int zipCodeId)
+    {
+        this.zipCodeId = zipCodeId;
+    }
+    
     public String getZipCode()
     {
         return zipCode;

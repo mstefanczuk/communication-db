@@ -6,5 +6,5 @@ public interface EmployeeDAO
 {
     public void insert(Employee employee);
 
-    public Employee findByEmployeeId(int empId);
+    public Employee findByEmployeeId(int employeeId);
 }

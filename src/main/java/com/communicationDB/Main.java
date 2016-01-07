@@ -1,14 +1,15 @@
-import java.sql.Date;
+package com.communicationDB;
+
+import java.util.Date;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.communicationDB.common.Driver;
-import com.communicationDB.common.DriverDAO;
+import com.communicationDB.data.access.DriverDAO;
+import com.communicationDB.data.model.Driver;
 
 public class Main
 {
-
     public static void main(String[] args)
     {
         ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
@@ -18,8 +19,13 @@ public class Main
         // "94022306914", new Date((long)1), 1, 1);
         // employeeDAO.insert(employee);
 
-        DriverDAO driverDAO = (DriverDAO) context.getBean("driverDAO");
-        Driver driver = new Driver(1, "T", "666", new Date((long) 666), new Date((long) 666));
+        DriverDAO driverDAO = (DriverDAO) context.getBean("DriverDAO");
+        Driver driver = new Driver();
+        driver.setEmployeeId(1);
+        driver.setIsDCategory(true);
+        driver.setDrivingLicenseNr("T");
+        driver.setStartLicenseDate(new Date());
+        driver.setEndLicenseDate(new Date());
         driverDAO.insert(driver);
 
         // Employee employee1 = employeeDAO.findByEmployeeId(1);

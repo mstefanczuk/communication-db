@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Office
 {
+    protected int officeId;
     protected String name;
     protected String NIP;
     protected Date creationDate;
@@ -16,7 +17,17 @@ public class Office
     {
         this.employees = new LinkedList<Employee>();
     }
+    
+    public int getOfficeId()
+    {
+        return officeId;
+    }
 
+    public void setOfficeId(int officeId)
+    {
+        this.officeId = officeId;
+    }
+    
     public String getName()
     {
         return name;

@@ -2,6 +2,7 @@ package com.communicationDB.data.model;
 
 public class Address
 {
+    protected int addressId;
     protected String street;
     protected String houseNumber;
     protected String apartmentNumber;
@@ -12,6 +13,16 @@ public class Address
     {
     }
 
+    public int getAddressId()
+    {
+        return addressId;
+    }
+
+    public void setAddressId(int addressId)
+    {
+        this.addressId = addressId;
+    }
+    
     public String getStreet()
     {
         return street;
