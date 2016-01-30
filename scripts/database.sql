@@ -501,7 +501,7 @@ CREATE TABLE Rozklady_szczegoly
   Id_rozklad_szczegoly Int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Czas_odjazdu Time NOT NULL,
   Nr_inwentaryzacyjny_pojazdu Varchar(20) NOT NULL,
-  Id_nazwa_przystanku Int NOT NULL,
+  Id_przystanku Int NOT NULL,
   Id_pracownik Int NOT NULL,
   Id_rozklad Int NOT NULL
 )
@@ -553,7 +553,7 @@ ALTER TABLE Rozklady_szczegoly ADD CONSTRAINT Jedzie_zgodnie_z FOREIGN KEY (Nr_i
 ALTER TABLE Adresy ADD CONSTRAINT Adres_ma_poczte FOREIGN KEY (Id_poczta) REFERENCES Poczty (Id_poczta) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
-ALTER TABLE Rozklady_szczegoly ADD CONSTRAINT Przystanek_ma_rozklady FOREIGN KEY (Id_nazwa_przystanku) REFERENCES Przystanki (Id_przystanku) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE Rozklady_szczegoly ADD CONSTRAINT Przystanek_ma_rozklady FOREIGN KEY (Id_przystanku) REFERENCES Przystanki (Id_przystanku) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
 ALTER TABLE Rozklady_szczegoly ADD CONSTRAINT Realizuje FOREIGN KEY (Id_pracownik) REFERENCES Pracownicy_T (Id_pracownik) ON DELETE NO ACTION ON UPDATE NO ACTION
