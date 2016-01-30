@@ -117,33 +117,33 @@ def generate_vehicle(file, nr):
     rand_date += timedelta(days=random.randint(18, 30) * 30)
     date_of_next_inspection = datetime.strptime(str(rand_date), '%Y-%m-%d %H:%M:%S').strftime('%Y.%m.%d')
     file.write(
-        'INSERT INTO `Pojazdy_t` (`Nr_inwentaryzacyjny_pojazdu`,`Data_zakupu`,`Data_ost_przegladu`,`Data_nast_przegladu`,`Rok_produkcji`,`Miejsca_siedzace`,`Miejsca_stojace`)\n'
-        'VALUES (' + nr + ',"' + str(date_of_purchase) + '","' + str(date_of_inspection) + '","' + str(date_of_next_inspection) + '","' + str(
+        'INSERT INTO `Pojazdy_T` (`Nr_inwentaryzacyjny_pojazdu`,`Data_zakupu`,`Data_ost_przegladu`,`Data_nast_przegladu`,`Rok_produkcji`,`Miejsca_siedzace`,`Miejsca_stojace`)\n'
+        'VALUES ("' + nr + '","' + str(date_of_purchase) + '","' + str(date_of_inspection) + '","' + str(date_of_next_inspection) + '","' + str(
             date_of_production) + '",' + str(random.randint(110, 150)) + ',' + str(random.randint(300, 400)) + ');\n\n')
 
 
 def generate_vehicles(args, amounts):
     with open(args.output, 'a') as file:
-        file.write('-- Insert Autobusy_t\n\n')
+        file.write('-- Insert Autobusy_T\n\n')
         for i in xrange(0, args.trum):
             nr = id_generator(3) + str(i + 1).zfill(9)
-            file.write('INSERT INTO `Autobusy_t` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_rejestracyjny_autobusu`,`Model_autobusu_id`)\n'
-                       'VALUES (' + nr + ',' + id_generator(8) + ',' + str(random.randint(1, amounts[0])) + ');\n')
             generate_vehicle(file, nr)
+            file.write('INSERT INTO `Autobusy_T` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_rejestracyjny_autobusu`,`Model_autobusu_id`)\n'
+                       'VALUES ("' + nr + '","' + id_generator(8) + '",' + str(random.randint(1, amounts[0])) + ');\n')
 
-        file.write('-- Insert Tramwaje_t\n\n')
+        file.write('-- Insert Tramwaje_T\n\n')
         for i in xrange(0, args.trum):
             nr = id_generator(3) + str(i + 1 + 400000000).zfill(9)
-            file.write('INSERT INTO `Tramwaje_t` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_rejestracyjny_tramwaju`,`Model_tramwaju_id`)\n'
-                       'VALUES (' + nr + ',' + id_generator(7) + ',' + str(random.randint(1, amounts[1])) + ');\n')
             generate_vehicle(file, nr)
+            file.write('INSERT INTO `Tramwaje_T` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_rejestracyjny_tramwaju`,`Model_tramwaju_id`)\n'
+                       'VALUES ("' + nr + '","' + id_generator(7) + '",' + str(random.randint(1, amounts[1])) + ');\n')
 
-        file.write('-- Insert Metra_t\n\n')
+        file.write('-- Insert Metra_T\n\n')
         for i in xrange(0, args.subway):
             nr = id_generator(3) + str(i + 1 + 800000000).zfill(9)
-            file.write('INSERT INTO `Metra_t` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_dopuszczenia`,`Model_metra_id`)\n'
-                       'VALUES (' + nr + ',' + id_generator(5) + ',' + str(random.randint(1, amounts[2])) + ');\n')
             generate_vehicle(file, nr)
+            file.write('INSERT INTO `Metra_T` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_dopuszczenia`,`Model_metra_id`)\n'
+                       'VALUES ("' + nr + '","' + id_generator(5) + '",' + str(random.randint(1, amounts[2])) + ');\n')
 
 
 if __name__ == '__main__':
