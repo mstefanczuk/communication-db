@@ -73,21 +73,21 @@ def get_and_delete(models):
 
 def generate_models(args):
     with open(args.output, 'a') as file:
-        file.write('--Insert Autobusy_modele\n\n')
+        file.write('-- Insert Autobusy_modele\n\n')
         for i in xrange(0, min(args.bus_model, amount(bus_models))):
             brand, model = get_and_delete(bus_models)
             file.write('INSERT INTO `Autobusy_modele` (`Marka`,`Model`,`Czy_niskopodlogowy`,`Czy_przegubowy`,`Pojemnosc_skokowa`)\n'
                        'VALUES ("' + brand + '","' + model + '",' + str(random.randint(0, 1)) + ',' + str(random.randint(0, 1)) + ',' + str(
                 random.randint(4, 14) * 500) + ');\n\n')
 
-        file.write('--Insert Tramwaje_modele\n\n')
+        file.write('-- Insert Tramwaje_modele\n\n')
         for i in xrange(0, min(args.trum_model, amount(trum_models))):
             brand, model = get_and_delete(trum_models)
             file.write('INSERT INTO `Tramwaje_modele` (`Marka`,`Model`,`Czy_niskopodlogowy`,`Napiecie_zasilania`,`Czy_dwukierunkowy`)\n'
                        'VALUES ("' + brand + '","' + model + '",' + str(random.randint(0, 1)) + ',' + str(random.randint(7, 15) * 20) + ',' + str(
                 random.randint(0, 1)) + ');\n\n')
 
-        file.write('--Insert Metra_modele\n\n')
+        file.write('-- Insert Metra_modele\n\n')
         for i in xrange(0, min(args.subway_model, amount(subway_models))):
             brand, model = get_and_delete(subway_models)
             file.write('INSERT INTO `Metra_modele` (`Producent`,`Model`,`Ilosc_wagonow`,`Dopuszczalna_predkosc`)\n'
