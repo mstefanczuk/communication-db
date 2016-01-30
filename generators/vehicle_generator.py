@@ -3,6 +3,8 @@ import argparse
 import os
 import errno
 import random
+import string
+from datetime import *
 
 bus_models = {
     'Autosan': ['Sancity 9LE', 'Sancity 10LF', 'Sancity 12LE', 'Sancity 12LF', 'Sancity 18LF', 'Eurolider 12', 'Eurolider 13'],
@@ -27,6 +29,10 @@ subway_models = {
     'Alstom': ['Metropolis', 'Urbanpolo', 'Underground ET7'],
     'Siemens': ['Inspiro', 'Conspiro', 'UBanh HM']
 }
+
+
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 
 def amount(brands):
@@ -71,30 +77,79 @@ def get_and_delete(models):
     return brand, model
 
 
-def generate_models(args):
+def random_date(start, end, prop):
+    start = datetime.strptime(start, prop)
+    end = datetime.strptime(end, prop)
+    return start + timedelta(seconds=random.randint(0, int((end - start).total_seconds())))
+
+
+def generate_models(args, amounts):
     with open(args.output, 'a') as file:
         file.write('-- Insert Autobusy_modele\n\n')
-        for i in xrange(0, min(args.bus_model, amount(bus_models))):
+        for i in xrange(0, amounts[0]):
             brand, model = get_and_delete(bus_models)
             file.write('INSERT INTO `Autobusy_modele` (`Marka`,`Model`,`Czy_niskopodlogowy`,`Czy_przegubowy`,`Pojemnosc_skokowa`)\n'
                        'VALUES ("' + brand + '","' + model + '",' + str(random.randint(0, 1)) + ',' + str(random.randint(0, 1)) + ',' + str(
                 random.randint(4, 14) * 500) + ');\n\n')
 
         file.write('-- Insert Tramwaje_modele\n\n')
-        for i in xrange(0, min(args.trum_model, amount(trum_models))):
+        for i in xrange(0, amounts[1]):
             brand, model = get_and_delete(trum_models)
             file.write('INSERT INTO `Tramwaje_modele` (`Marka`,`Model`,`Czy_niskopodlogowy`,`Napiecie_zasilania`,`Czy_dwukierunkowy`)\n'
                        'VALUES ("' + brand + '","' + model + '",' + str(random.randint(0, 1)) + ',' + str(random.randint(7, 15) * 20) + ',' + str(
                 random.randint(0, 1)) + ');\n\n')
 
         file.write('-- Insert Metra_modele\n\n')
-        for i in xrange(0, min(args.subway_model, amount(subway_models))):
+        for i in xrange(0, amounts[2]):
             brand, model = get_and_delete(subway_models)
             file.write('INSERT INTO `Metra_modele` (`Producent`,`Model`,`Ilosc_wagonow`,`Dopuszczalna_predkosc`)\n'
                        'VALUES ("' + brand + '","' + model + '",' + str(random.randint(4, 8)) + ',' + str(random.randint(14, 22) * 5) + ');\n\n')
 
 
+def generate_vehicle(file, nr):
+    rand_date = random_date('1980.01.01', '2013.01.01', '%Y.%m.%d')
+    date_of_purchase = datetime.strptime(str(rand_date), '%Y-%m-%d %H:%M:%S').strftime('%Y.%m.%d')
+    rand_date -= timedelta(days=random.randint(12, 30) * 30)
+    date_of_production = datetime.strptime(str(rand_date), '%Y-%m-%d %H:%M:%S').strftime('%Y.%m.%d')
+
+    rand_date = random_date('2015.01.01', '2016.01.01', '%Y.%m.%d')
+    date_of_inspection = datetime.strptime(str(rand_date), '%Y-%m-%d %H:%M:%S').strftime('%Y.%m.%d')
+    rand_date += timedelta(days=random.randint(18, 30) * 30)
+    date_of_next_inspection = datetime.strptime(str(rand_date), '%Y-%m-%d %H:%M:%S').strftime('%Y.%m.%d')
+    file.write(
+        'INSERT INTO `Pojazdy_t` (`Nr_inwentaryzacyjny_pojazdu`,`Data_zakupu`,`Data_ost_przegladu`,`Data_nast_przegladu`,`Rok_produkcji`,`Miejsca_siedzace`,`Miejsca_stojace`)\n'
+        'VALUES (' + nr + ',"' + str(date_of_purchase) + '","' + str(date_of_inspection) + '","' + str(date_of_next_inspection) + '","' + str(
+            date_of_production) + '",' + str(random.randint(110, 150)) + ',' + str(random.randint(300, 400)) + ');\n\n')
+
+
+def generate_vehicles(args, amounts):
+    with open(args.output, 'a') as file:
+        file.write('-- Insert Autobusy_t\n\n')
+        for i in xrange(0, args.trum):
+            nr = id_generator(3) + str(i + 1).zfill(9)
+            file.write('INSERT INTO `Autobusy_t` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_rejestracyjny_autobusu`,`Model_autobusu_id`)\n'
+                       'VALUES (' + nr + ',' + id_generator(8) + ',' + str(random.randint(1, amounts[0])) + ');\n')
+            generate_vehicle(file, nr)
+
+        file.write('-- Insert Tramwaje_t\n\n')
+        for i in xrange(0, args.trum):
+            nr = id_generator(3) + str(i + 1 + 400000000).zfill(9)
+            file.write('INSERT INTO `Tramwaje_t` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_rejestracyjny_tramwaju`,`Model_tramwaju_id`)\n'
+                       'VALUES (' + nr + ',' + id_generator(7) + ',' + str(random.randint(1, amounts[1])) + ');\n')
+            generate_vehicle(file, nr)
+
+        file.write('-- Insert Metra_t\n\n')
+        for i in xrange(0, args.subway):
+            nr = id_generator(3) + str(i + 1 + 800000000).zfill(9)
+            file.write('INSERT INTO `Metra_t` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_dopuszczenia`,`Model_metra_id`)\n'
+                       'VALUES (' + nr + ',' + id_generator(5) + ',' + str(random.randint(1, amounts[2])) + ');\n')
+            generate_vehicle(file, nr)
+
+
 if __name__ == '__main__':
     args = parse_arguments()
+    amounts = [min(args.bus_model, amount(bus_models)), min(args.trum_model, amount(trum_models)), min(args.subway_model, amount(subway_models))]
     remove_is_exist(args.output)
-    generate_models(args)
+
+    generate_models(args, amounts)
+    generate_vehicles(args, amounts)
