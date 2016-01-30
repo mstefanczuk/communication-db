@@ -125,7 +125,7 @@ def generate_vehicle(file, nr):
 def generate_vehicles(args, amounts):
     with open(args.output, 'a') as file:
         file.write('-- Insert Autobusy_T\n\n')
-        for i in xrange(0, args.trum):
+        for i in xrange(0, args.bus):
             nr = id_generator(3) + str(i + 1).zfill(9)
             generate_vehicle(file, nr)
             file.write('INSERT INTO `Autobusy_T` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_rejestracyjny_autobusu`,`Model_autobusu_id`)\n'
