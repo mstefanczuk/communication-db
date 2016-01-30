@@ -312,17 +312,15 @@ CREATE OR REPLACE VIEW Pojazdy
   Tramwaje_T.Model_tramwaju_id,
   Metra_T.Nr_dopuszczenia,
   Metra_T.Model_metra_id
-  FROM
-  Pojazdy_T,
-  Autobusy_T,
-  Tramwaje_T,
-  Metra_T
-  WHERE
-  Pojazdy_T.Nr_inwentaryzacyjny_pojazdu = Autobusy_T.Nr_inwentaryzacyjny_pojazdu AND
-  Pojazdy_T.Nr_inwentaryzacyjny_pojazdu = Tramwaje_T.Nr_inwentaryzacyjny_pojazdu AND
-  Pojazdy_T.Nr_inwentaryzacyjny_pojazdu = Metra_T.Nr_inwentaryzacyjny_pojazdu;
+  FROM Pojazdy_T
+    left join Autobusy_T
+      on(Pojazdy_T.Nr_inwentaryzacyjny_pojazdu = Autobusy_T.Nr_inwentaryzacyjny_pojazdu)
+    left join Tramwaje_T
+      on(Pojazdy_T.Nr_inwentaryzacyjny_pojazdu = Tramwaje_T.Nr_inwentaryzacyjny_pojazdu)
+    left join Metra_T
+      on( Pojazdy_T.Nr_inwentaryzacyjny_pojazdu = Metra_T.Nr_inwentaryzacyjny_pojazdu);
   
-  CREATE OR REPLACE VIEW Autobusy
+CREATE OR REPLACE VIEW Autobusy
 (Nr_inwentaryzacyjny_pojazdu,
   Data_zakupu,
   Data_ost_przegladu,
