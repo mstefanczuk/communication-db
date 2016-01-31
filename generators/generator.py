@@ -145,29 +145,29 @@ def generate_vehicles(args, amounts):
     with open(args.output, 'a') as file:
         file.write('-- Insert Autobusy_T\n\n')
         for i in xrange(0, args.bus):
-            nr = id_generator(3) + str(i + 1).zfill(9)
+            nr = id_generator(3) + str(i + 1).zfill(5)
             generate_vehicle(file, nr)
             file.write('INSERT INTO `Autobusy_T` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_rejestracyjny_autobusu`,`Model_autobusu_id`)\n'
                        'VALUES ("' + nr + '","' + id_generator(8) + '",' + str(random.randint(1, amounts[0])) + ');\n')
 
         file.write('-- Insert Tramwaje_T\n\n')
         for i in xrange(0, args.trum):
-            nr = id_generator(3) + str(i + 1 + 400000000).zfill(9)
+            nr = id_generator(3) + str(i + 1 + 40000).zfill(5)
             generate_vehicle(file, nr)
             file.write('INSERT INTO `Tramwaje_T` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_rejestracyjny_tramwaju`,`Model_tramwaju_id`)\n'
                        'VALUES ("' + nr + '","' + id_generator(7) + '",' + str(random.randint(1, amounts[1])) + ');\n')
 
         file.write('-- Insert Metra_T\n\n')
         for i in xrange(0, args.subway):
-            nr = id_generator(3) + str(i + 1 + 800000000).zfill(9)
+            nr = id_generator(3) + str(i + 1 + 80000).zfill(5)
             generate_vehicle(file, nr)
             file.write('INSERT INTO `Metra_T` (`Nr_inwentaryzacyjny_pojazdu`,`Nr_dopuszczenia`,`Model_metra_id`)\n'
                        'VALUES ("' + nr + '","' + id_generator(5) + '",' + str(random.randint(1, amounts[2])) + ');\n')
 
 
-def generate_route(file, routes, vehicles, start):
+def generate_route(file, routes, vehicles, start, line_number, employee_id=1):
     for i in xrange(0, routes):
-        route_number = 180 + i
+        route_number = line_number + i
         route = random.sample(stations, random.randint(10, 30))
 
         file.write('\nINSERT INTO `Linie` (`Kierunek`,`Nr_linii`)\n'
@@ -175,16 +175,25 @@ def generate_route(file, routes, vehicles, start):
         file.write('INSERT INTO `Rozklady` (`Id_linia`,`Data`)\n'
                    'VALUES (' + str(i + 1) + ',"2016.01.01");\n')
 
-        employee_id = 1
-        vehicle_id = vehicle_ids[random.randint(start, start + vehicles)]
-        vehicle_ids.remove(vehicle_id)
-        vehicles -= 1
         tm = datetime.strptime('08:00:00', '%H:%M:%S')
-        tm += timedelta(minutes=random.randint(-120, 120))
-        for station in route:
-            file.write('INSERT INTO `Rozklady_szczegoly` (`Czas_odjazdu`,`Nr_inwentaryzacyjny_pojazdu`,`Id_przystanku`,`Id_pracownik`,`Id_rozklad`)\n'
-                       'VALUES ("' + tm.strftime('%H:%M:%S') + '","' + str(vehicle_id) + '",' + str(stations.index(station) + 1) + ',' + str(employee_id) + ',' + str(i + 1) + ');\n')
-            tm += timedelta(minutes=random.randint(2, 6))
+        tm += timedelta(minutes=random.randint(-90, 15))
+        j = 0
+        vehicles_ids2 = []
+        for delta in xrange(0, 60, 6):
+            vehicle_id = vehicle_ids[random.randint(start, start + vehicles)]
+            vehicle_ids.remove(vehicle_id)
+            vehicles_ids2.append(vehicle_id)
+            vehicles -= 1
+            tm2 = []
+            sum = 0
+            for x in route:
+                tm2.append(sum)
+                sum += random.randint(2, 6)
+            for k, station in enumerate(route):
+                file.write('INSERT INTO `Rozklady_szczegoly` (`Czas_odjazdu`,`Nr_inwentaryzacyjny_pojazdu`,`Id_przystanku`,`Id_pracownik`,`Id_rozklad`)\n'
+                           'VALUES ("' + (tm + timedelta(minutes=(tm2[k] + delta))).strftime('%H:%M:%S') + '","' + str(vehicle_id) + '",' + str(stations.index(station) + 1) + ',' + str(employee_id + j) + ',' + str(i + 1) + ');\n')
+            j += 1
+            file.write('\n')
 
 
         file.write('\nINSERT INTO `Linie` (`Kierunek`,`Nr_linii`)\n'
@@ -192,16 +201,24 @@ def generate_route(file, routes, vehicles, start):
         file.write('INSERT INTO `Rozklady` (`Id_linia`,`Data`)\n'
                    'VALUES (LAST_INSERT_ID(),"2016.01.01");\n')
 
-        employee_id = 1
-        vehicle_id = vehicle_ids[random.randint(start, start + vehicles)]
-        vehicle_ids.remove(vehicle_id)
-        vehicles -= 1
-        tm = datetime.strptime('08:00:00', '%H:%M:%S')
-        tm += timedelta(minutes=random.randint(-120, 120))
-        for station in route[::-1]:
-            file.write('INSERT INTO `Rozklady_szczegoly` (`Czas_odjazdu`,`Nr_inwentaryzacyjny_pojazdu`,`Id_przystanku`,`Id_pracownik`,`Id_rozklad`)\n'
-                       'VALUES ("' + tm.strftime('%H:%M:%S') + '","' + str(vehicle_id) + '",' + str(stations.index(station) + 1) + ',' + str(employee_id) + ',' + str(i + 1) + ');\n')
-            tm += timedelta(minutes=random.randint(2, 6))
+        tm = datetime.strptime('11:00:00', '%H:%M:%S')
+        j = 0
+        for delta in xrange(0, 60, 6):
+            vehicle_id = vehicles_ids2[delta/6]
+            tm2 = []
+            sum = 0
+            for x in route:
+                tm2.append(sum)
+                sum += random.randint(2, 6)
+            for k, station in enumerate(route[::-1]):
+                file.write('INSERT INTO `Rozklady_szczegoly` (`Czas_odjazdu`,`Nr_inwentaryzacyjny_pojazdu`,`Id_przystanku`,`Id_pracownik`,`Id_rozklad`)\n'
+                           'VALUES ("' + (tm + timedelta(minutes=(tm2[k] + delta))).strftime('%H:%M:%S') + '","' + str(vehicle_id) + '",' + str(stations.index(station) + 1) + ',' + str(employee_id + j) + ',' + str(i + 1) + ');\n')
+            j += 1
+            file.write('\n')
+
+        employee_id += 10
+        if (employee_id-1) % 100 == 0:
+            employee_id += 200
 
 
 def generate_routes(offices, bus_routes, tram_routes, subway_routes):
@@ -221,24 +238,26 @@ def generate_routes(offices, bus_routes, tram_routes, subway_routes):
         file.write('\n-- Insert Linie autobusowe\n')
         global vehicle_ids
         vehicle_ids_copy = list(vehicle_ids)
-        generate_route(file, bus_routes, args.bus, 0)
+        generate_route(file, bus_routes, args.bus, 0, 180, 1)
         vehicle_ids = list(vehicle_ids_copy)
+
         file.write('\n-- Insert Linie tramwajowe\n')
-        generate_route(file, tram_routes, args.trum, args.bus - 1)
+        generate_route(file, tram_routes, args.trum, args.bus - 1, 1, 101)
         vehicle_ids = list(vehicle_ids_copy)
+
         file.write('\n-- Insert Linie metra\n')
-        generate_route(file, subway_routes, args.subway, args.bus + args.trum - 1)
+        generate_route(file, subway_routes, args.subway, args.bus + args.trum - 1, 700, 401)
         vehicle_ids = vehicle_ids_copy
 
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='MySQL INSERT generator')
-    parser.add_argument('--bus-model', default=10, type=int, help='Generates MySQL inserts for bus model (max 60)')
-    parser.add_argument('--trum-model', default=5, type=int, help='Generates MySQL inserts for trum model (max 30)')
-    parser.add_argument('--subway-model', default=2, type=int, help='Generates MySQL inserts for subway model (max 10)')
-    parser.add_argument('-b', '--bus', default=200, type=int, help='Generates MySQL inserts for bus')
-    parser.add_argument('-t', '--trum', default=100, type=int, help='Generates MySQL inserts for trum')
-    parser.add_argument('-s', '--subway', default=20, type=int, help='Generates MySQL inserts for subway')
+    parser.add_argument('--bus-model', default=15, type=int, help='Generates MySQL inserts for bus model (max 60)')
+    parser.add_argument('--trum-model', default=10, type=int, help='Generates MySQL inserts for trum model (max 30)')
+    parser.add_argument('--subway-model', default=5, type=int, help='Generates MySQL inserts for subway model (max 10)')
+    parser.add_argument('-b', '--bus', default=500, type=int, help='Generates MySQL inserts for bus')
+    parser.add_argument('-t', '--trum', default=400, type=int, help='Generates MySQL inserts for trum')
+    parser.add_argument('-s', '--subway', default=100, type=int, help='Generates MySQL inserts for subway')
     parser.add_argument('-o', '--output', default='insert.sql', type=str, help='Output file containing SQL queries')
     return parser.parse_args()
 

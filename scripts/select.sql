@@ -7,6 +7,12 @@ select * from `Poczty`;
 select * from `Adresy`;
 select * from `Biura`;
 
+select * from `Pracownicy_T`;
+select * from `Kierowcy_T`;
+select * from `Maszynisci_T`;
+select * from `Pracownicy_biurowi_T`;
+select * from `Stanowiska_slownik`;
+
 select * from `Pojazdy_T`;
 select * from `Autobusy_T`;
 select * from `Tramwaje_T`;

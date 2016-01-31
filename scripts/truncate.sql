@@ -1,5 +1,8 @@
 SET SQL_SAFE_UPDATES = 0;
 
+TRUNCATE TABLE Rozklady_szczegoly;
+ALTER TABLE Rozklady_szczegoly AUTO_INCREMENT = 1;
+
 DELETE FROM Przystanki;
 ALTER TABLE Przystanki AUTO_INCREMENT = 1;
 
@@ -8,6 +11,21 @@ ALTER TABLE Rozklady AUTO_INCREMENT = 1;
 
 DELETE FROM Linie;
 ALTER TABLE Linie AUTO_INCREMENT = 1;
+
+TRUNCATE Kierowcy_T;
+ALTER TABLE Kierowcy_T AUTO_INCREMENT = 1;
+
+TRUNCATE Maszynisci_T;
+ALTER TABLE Kierowcy_T AUTO_INCREMENT = 1;
+
+TRUNCATE Pracownicy_biurowi_T;
+ALTER TABLE Pracownicy_biurowi_T AUTO_INCREMENT = 1;
+
+DELETE FROM Stanowiska_slownik;
+ALTER TABLE Stanowiska_slownik AUTO_INCREMENT = 1;
+
+DELETE FROM Pracownicy_T;
+ALTER TABLE Pracownicy_T AUTO_INCREMENT = 1;
 
 DELETE FROM Biura;
 ALTER TABLE Biura AUTO_INCREMENT = 1;
