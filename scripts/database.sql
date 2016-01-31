@@ -101,15 +101,13 @@ CREATE OR REPLACE VIEW Pracownicy
   Pracownicy_biurowi_T.Zespol,
   Pracownicy_biurowi_T.Nr_pokoju,
   Pracownicy_biurowi_T.Id_Stanowisko
-  FROM
-  Pracownicy_T,
-  Kierowcy_T,
-  Maszynisci_T,
-  Pracownicy_biurowi_T
-  WHERE
-  Pracownicy_T.Id_pracownik = Kierowcy_T.Id_pracownik AND
-  Pracownicy_T.Id_pracownik = Maszynisci_T.Id_pracownik AND
-  Pracownicy_T.Id_pracownik = Pracownicy_biurowi_T.Id_pracownik;
+  FROM pracownicy_t
+    left join kierowcy_t
+      on(Pracownicy_T.Id_pracownik = Kierowcy_T.Id_pracownik)
+    left join maszynisci_t
+      on(Pracownicy_T.Id_pracownik = Maszynisci_T.Id_pracownik)
+    left join pracownicy_biurowi_t
+      on( Pracownicy_T.Id_pracownik = Pracownicy_biurowi_T.Id_pracownik);
   
 CREATE OR REPLACE VIEW Kierowcy
 (Id_pracownik,
@@ -217,7 +215,7 @@ CREATE OR REPLACE VIEW Pracownicy_biurowi
 CREATE TABLE Stanowiska_slownik
 (
   Id_Stanowisko Int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  Nazwa_stanowiska Varchar(100) NOT NULL DEFAULT 'Stazysta'
+  Nazwa_stanowiska Varchar(50) NOT NULL DEFAULT 'Stazysta'
 )
 ;
 
@@ -432,7 +430,7 @@ CREATE TABLE Tramwaje_modele
 CREATE TABLE Metra_modele
 (
   Model_metra_id Int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  Producent Varchar(200) NOT NULL,
+  Producent Varchar(50) NOT NULL,
   Model Varchar(50) NOT NULL,
   Ilosc_wagonow Int NOT NULL,
   Dopuszczalna_predkosc Int NOT NULL
@@ -444,7 +442,7 @@ CREATE TABLE Metra_modele
 CREATE TABLE Biura
 (
   Id_biuro Int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  Nazwa Varchar(200) NOT NULL,
+  Nazwa Varchar(50) NOT NULL,
   NIP Varchar(30) NOT NULL,
   Data_zalozenia Date NOT NULL,
   Id_adres Int NOT NULL
@@ -459,7 +457,7 @@ CREATE INDEX IX_Biuro_ma ON Biura (Id_adres)
 CREATE TABLE Przystanki
 (
   Id_przystanku Int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  Nazwa_przystanku Varchar(200) NOT NULL,
+  Nazwa_przystanku Varchar(50) NOT NULL,
   GPS_X Decimal(15,12) NOT NULL,
   GPS_Y Decimal(15,12) NOT NULL,
   Id_biuro Int NOT NULL
@@ -475,7 +473,7 @@ CREATE TABLE Linie
 (
   Id_linia Int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Nr_linii Varchar(5) NOT NULL,
-  Kierunek Varchar(20) NOT NULL
+  Kierunek Varchar(50) NOT NULL
 )
 ;
 
