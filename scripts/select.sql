@@ -1,4 +1,7 @@
 select * from `Przystanki`;
+select * from `Rozklady_szczegoly`;
+select * from `Rozklady`;
+select * from `Linie`;
 
 select * from `Poczty`;
 select * from `Adresy`;
