@@ -108,6 +108,49 @@ CREATE OR REPLACE VIEW Pracownicy
       on(Pracownicy_T.Id_pracownik = Maszynisci_T.Id_pracownik)
     left join pracownicy_biurowi_t
       on( Pracownicy_T.Id_pracownik = Pracownicy_biurowi_T.Id_pracownik);
+      
+CREATE OR REPLACE VIEW Pracownicy_Public
+(Id_pracownik,
+  Imie,
+  Nazwisko,
+  Data_urodzenia,
+  Data_zatrudnienia,
+  Data_uzyskania_uprawnienia,
+  Data_waznosci_uprawnienia,
+  Id_biuro,
+  Czy_kategoria_D,
+  Nr_prawa_jazdy,
+  Nr_uprawnienia_maszynisty,
+  Kategoria_uprawnienia,
+  Zespol,
+  Nr_pokoju,
+  Id_Stanowisko
+  )
+  AS SELECT
+  Pracownicy_T.Id_pracownik,
+  Pracownicy_T.Imie,
+  Pracownicy_T.Nazwisko,
+  Pracownicy_T.Data_urodzenia,
+  Pracownicy_T.Pesel,
+  Pracownicy_T.Data_zatrudnienia,
+  Pracownicy_T.Data_uzyskania_uprawnienia,
+  Pracownicy_T.Data_waznosci_uprawnienia,
+  Pracownicy_T.Id_biuro,
+  Pracownicy_T.Id_adres,
+  Kierowcy_T.Czy_kategoria_D,
+  Kierowcy_T.Nr_prawa_jazdy,
+  Maszynisci_T.Nr_uprawnienia_maszynisty,
+  Maszynisci_T.Kategoria_uprawnienia,
+  Pracownicy_biurowi_T.Zespol,
+  Pracownicy_biurowi_T.Nr_pokoju,
+  Pracownicy_biurowi_T.Id_Stanowisko
+  FROM pracownicy_t
+    left join kierowcy_t
+      on(Pracownicy_T.Id_pracownik = Kierowcy_T.Id_pracownik)
+    left join maszynisci_t
+      on(Pracownicy_T.Id_pracownik = Maszynisci_T.Id_pracownik)
+    left join pracownicy_biurowi_t
+      on( Pracownicy_T.Id_pracownik = Pracownicy_biurowi_T.Id_pracownik);
   
 CREATE OR REPLACE VIEW Kierowcy
 (Id_pracownik,
